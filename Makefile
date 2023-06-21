@@ -30,5 +30,7 @@ clean:
 		dist/* \
 		libpgf/configure \
 		libpgf/m4 \
-		libpgf/**/Makefile \
-		libpgf/**/*.{a,la,o,lo}
+		libpgf/**/Makefile{,.in} \
+		libpgf/**/*.{a,la,o,lo} \
+		libpgf/src/.deps \
+		libpgf/src/.libs
