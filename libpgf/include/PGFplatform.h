@@ -351,6 +351,12 @@ inline OSError SetFPos(HANDLE hFile, int posMode, INT64 posOff) {
 
 #endif // __NetBSD__ or __OpenBSD__ or __FreeBSD__
 
+//-------------------------------------------------------------------------------
+// Emscripten (for WASM compilation)
+//-------------------------------------------------------------------------------
+#ifdef __EMSCRIPTEN__
+#define __POSIX__
+#endif // __EMSCRIPTEN__
 
 //-------------------------------------------------------------------------------
 // POSIX *NIXes
