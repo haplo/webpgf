@@ -11,7 +11,7 @@ libpgf/configure:
 libpgf/src/.libs/libpgf.a: libpgf/configure
 	cd libpgf && emmake make
 
-dist/webpgf.js: libpgf/src/.libs/libpgf.a
+dist/webpgf.js: dist libpgf/src/.libs/libpgf.a
 	em++ \
 		--bind \
 		-s ALLOW_MEMORY_GROWTH=1 \
@@ -21,6 +21,9 @@ dist/webpgf.js: libpgf/src/.libs/libpgf.a
 		-o $@ \
 		src/webpgf.cpp \
 		libpgf/src/.libs/libpgf.a
+
+dist:
+	mkdir dist
 
 clean:
 	rm -rf \
