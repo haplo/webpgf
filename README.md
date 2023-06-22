@@ -1,7 +1,5 @@
 # WebPGF: WASM library to decode PGF images
 
-TODO
-
 ## Build
 
 If you have Docker:
@@ -11,6 +9,9 @@ If you have Docker:
 ```
 
 This will build a Docker image with the necessary dependencies and use it to generate webpgf.js and webpgf.wasm in `dist` directory.
+
+By default the generated Javascript and WASM files are optimized.
+Use `build.sh --debug` to generate files suitable for debugging.
 
 Alternatively you can run `make build` without Docker.
 You will need to install the following dependencies:
