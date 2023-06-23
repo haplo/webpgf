@@ -39,11 +39,5 @@ dist:
 	mkdir dist
 
 clean:
-	rm -rf \
-		dist/* \
-		libpgf/configure \
-		libpgf/m4 \
-		libpgf/**/Makefile{,.in} \
-		libpgf/**/*.{a,la,o,lo} \
-		libpgf/src/.deps \
-		libpgf/src/.libs
+	git clean -f -d libpgf/
+	rm -f dist/*
