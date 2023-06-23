@@ -1,6 +1,6 @@
 OPTIMIZATION?=-O3 -g0
 
-.PHONY: clean
+.PHONY: build clean
 
 build: build_debug build_release
 
