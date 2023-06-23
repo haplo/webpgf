@@ -2,6 +2,6 @@
 #include "PGFimage.h"
 
 EMSCRIPTEN_KEEPALIVE
-const char* version() {
+extern "C" const char* version() {
     return PGFCodecVersion;
 }

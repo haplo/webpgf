@@ -27,7 +27,7 @@ Module['ready'] = new Promise((resolve, reject) => {
   readyPromiseResolve = resolve;
   readyPromiseReject = reject;
 });
-["_main","__Z7versionv","__embind_initialize_bindings","_fflush","onRuntimeInitialized"].forEach((prop) => {
+["_main","_version","__embind_initialize_bindings","_fflush","onRuntimeInitialized"].forEach((prop) => {
   if (!Object.getOwnPropertyDescriptor(Module['ready'], prop)) {
     Object.defineProperty(Module['ready'], prop, {
       get: () => abort('You are getting ' + prop + ' on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js'),
@@ -2246,7 +2246,7 @@ var asm = createWasm();
 /** @type {function(...*):?} */
 var ___wasm_call_ctors = createExportWrapper("__wasm_call_ctors");
 /** @type {function(...*):?} */
-var __Z7versionv = Module["__Z7versionv"] = createExportWrapper("_Z7versionv");
+var _version = Module["_version"] = createExportWrapper("version");
 /** @type {function(...*):?} */
 var ___getTypeName = createExportWrapper("__getTypeName");
 /** @type {function(...*):?} */
