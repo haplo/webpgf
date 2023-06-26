@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Javascript PGF decoding demo, using Web-Assembly (WASM)</title>
+  <style type="text/css">
+   .hide {
+       display: none;
+   }
+
+   .warning {
+       border: 2px solid red;
+       padding: 1em;
+   }
+  </style>
+  <script type="text/javascript" src="../dist/webpgf_debug.js"></script>
+  <script type="text/javascript">
+  'use strict';
+
+  let version;
+
+  function checkProtocol() {
+    // display warning if page has not been loaded through HTTP protocol (usually that means file://)
+    if (!window.location.protocol.startsWith('http')) {
+      const warning = document.getElementById('http_warning');
+      warning.classList.remove('hide');
+    }
+  }
+
+  function init() {
+    checkProtocol();
+    WebPGF().then(mod => {
+      version = mod.cwrap('version', 'string', []);     
+    });     
+  }   
+
+  window.onload = init;
+
+  function decode(pgf_data, canvas_id) {
+    console.log('decode: start');    
+
+    if (!version) {
+      console.warn('WASM module has not finished loading');
+      return 'WASM module has not finished loading'
+    }
+
+    let start = new Date();
+    let ret = version();
+    console.log('libPGF version:', ret);
+    let end = new Date();
+
+    // display timing result
+    let decode_time = end - start;
+    let result = 'decoding time: ' + decode_time +' ms.';
+    let speed_result = document.getElementById('timing');
+    if (speed_result != null) {
+      speed_result.innerHTML = '<p>'+ result + '</p>';
+    }
+
+    console.log('decode: end')
+  }
+
+  function loadfile(filename, canvas_id) {
+    console.log('loadfile: start')
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', filename);
+    xhr.responseType = 'arraybuffer';
+    xhr.onreadystatechange = function() {
+      console.log('loadfile onreadystatechange: readyState=', xhr.readyState)
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        let pgf_data = new Uint8Array(xhr.response);
+        decode(pgf_data, canvas_id);
+      }
+      console.log('loadfile onreadystatechange: end')
+    };
+    xhr.send();
+    console.log('loadfile: end')
+  }
+  </script>
+</head>
+
+<body>
+  <p>
+    <strong>PGF image demo using Web-Assembly</strong> -
+  </p>
+
+  <p>
+    WASM version of the PGF decoder, using libpgf compiled with <a href="https://emscripten.org/">Emscripten</a>.
+  </p>
+
+  <p id="http_warning" class="hide warning">You need to open this file through an HTTP server, otherwise WASM fails to load. See <a href="https://github.com/haplo/webpgf">README</a> for instructions.</p>
+
+  <p id="image_buttons">
+    <input type="button" value="test image!"
+           onclick="loadfile('../pgf-images/rgb_lossy.PGF', 'output_canvas')">
+  </p>
+  <p id="timing">Timing: N/A</p>
+  <canvas id="output_canvas">Your browser does not support canvas</canvas>
+</body>
+</html>

@@ -24,6 +24,20 @@ You will need to install the following dependencies:
 - *automake*
 - *libtool*
 
+## Demo
+
+Included is a simple HTML file that loads the WebPGF library and allows decoding and displaying PGF files.
+
+Due to web browser limitations, you cannot just open the demo file using the `file://` protocol, it needs to be served by a web server through HTTP protocol.
+The simplest solution is to use Python to start a web server:
+
+```
+# in webpgf root directory
+python3 -m http.server
+```
+
+Then open http://localhost:8000/src/ and the demo should work.
+
 ## Developer notes
 
 - libpgf needs to be patched to support emscripten. See commit 191f03ed5c2ec02 for the details.
