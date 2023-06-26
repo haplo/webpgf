@@ -5,7 +5,7 @@ Encoding of PGF images is not supported and is not planned.
 
 ## Build
 
-Install [Docker](https://docs.docker.com/get-docker/) and *make*, then run:
+Install [Docker](https://docs.docker.com/get-docker/) and [make](https://www.gnu.org/software/make/), then run:
 
 ```
 ./build.sh
