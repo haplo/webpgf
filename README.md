@@ -47,4 +47,4 @@ Then open http://localhost:8000/src/ and the demo should work.
 
 WebPGF is distributed under the LGPLv3 license, see [LICENSE](LICENSE) for details.
 
-libPGF is distributed under its own license, see [libpgf/LICENSE](libpgf/LICENSE).
+libPGF is distributed under its own license, see [libpgf/COPYING](libpgf/COPYING).
