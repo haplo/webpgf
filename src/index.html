@@ -14,11 +14,12 @@
        padding: 1em;
    }
   </style>
+  <!-- Repalce with webpgf.js to test the release version -->
   <script type="text/javascript" src="../dist/webpgf_debug.js"></script>
   <script type="text/javascript">
   'use strict';
 
-  let version;
+  let PGFImage;
 
   function checkProtocol() {
     // display warning if page has not been loaded through HTTP protocol (usually that means file://)
@@ -31,23 +32,31 @@
   function init() {
     checkProtocol();
     WebPGF().then(mod => {
-      version = mod.cwrap('version', 'string', []);     
-    });     
-  }   
+      PGFImage = mod.PGFImage;
+    });
+  }
 
   window.onload = init;
 
   function decode(pgf_data, canvas_id) {
-    console.log('decode: start');    
-
-    if (!version) {
+    if (!PGFImage) {
       console.warn('WASM module has not finished loading');
-      return 'WASM module has not finished loading'
+      return 'WASM module has not finished loading';
     }
 
     let start = new Date();
-    let ret = version();
-    console.log('libPGF version:', ret);
+    let pgf_image = new PGFImage(pgf_data);
+    console.log('pgf_image:', pgf_image);
+    const levels = pgf_image.levels();
+    console.log('levels:', levels);
+    const image_data = pgf_image.decode(0);
+    console.log('image_data:', image_data);
+    const canvas = document.getElementById(canvas_id);
+    canvas.width = image_data.width;
+    canvas.height = image_data.height;
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    ctx.putImageData(image_data, 0, 0);
     let end = new Date();
 
     // display timing result
@@ -57,25 +66,12 @@
     if (speed_result != null) {
       speed_result.innerHTML = '<p>'+ result + '</p>';
     }
-
-    console.log('decode: end')
   }
 
-  function loadfile(filename, canvas_id) {
-    console.log('loadfile: start')
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', filename);
-    xhr.responseType = 'arraybuffer';
-    xhr.onreadystatechange = function() {
-      console.log('loadfile onreadystatechange: readyState=', xhr.readyState)
-      if (xhr.readyState == 4 && xhr.status == 200) {
-        let pgf_data = new Uint8Array(xhr.response);
-        decode(pgf_data, canvas_id);
-      }
-      console.log('loadfile onreadystatechange: end')
-    };
-    xhr.send();
-    console.log('loadfile: end')
+  async function loadfile(filename, canvas_id) {
+    const resp = await fetch(filename);
+    const pgf_data = await resp.arrayBuffer();
+    decode(pgf_data, canvas_id);
   }
   </script>
 </head>
@@ -92,7 +88,7 @@
   <p id="http_warning" class="hide warning">You need to open this file through an HTTP server, otherwise WASM fails to load. See <a href="https://github.com/haplo/webpgf">README</a> for instructions.</p>
 
   <p id="image_buttons">
-    <input type="button" value="test image!"
+    <input type="button" value="Test image!"
            onclick="loadfile('../pgf-images/rgb_lossy.PGF', 'output_canvas')">
   </p>
   <p id="timing">Timing: N/A</p>

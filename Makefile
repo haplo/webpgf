@@ -1,10 +1,10 @@
 EMCC_OPTS=\
-  --bind \
+  -lembind \
   -s ALLOW_MEMORY_GROWTH=1 \
   -s MODULARIZE=1 \
   -s WASM=1 \
-  -s EXPORTED_RUNTIME_METHODS='["cwrap"]' \
   -s EXPORT_NAME="WebPGF" \
+  -fwasm-exceptions \
   -I libpgf/include/ \
   -o $@ \
   src/webpgf.cpp \
@@ -29,7 +29,7 @@ libpgf/configure:
 	cd libpgf && emconfigure ./configure
 
 libpgf/src/.libs/libpgf.a: libpgf/configure
-	cd libpgf && emmake make
+	cd libpgf && emmake make CPPFLAGS="-fwasm-exceptions"
 
 clean:
 	git clean -f -d libpgf/
