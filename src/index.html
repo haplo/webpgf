@@ -19,7 +19,8 @@
   <script type="text/javascript">
   'use strict';
 
-  let PGFImage;
+  let decode;
+  let version;
 
   function checkProtocol() {
     // display warning if page has not been loaded through HTTP protocol (usually that means file://)
@@ -32,24 +33,22 @@
   function init() {
     checkProtocol();
     WebPGF().then(mod => {
-      PGFImage = mod.PGFImage;
+      decode = mod.decode;
+      version = mod.version;
+      console.log('Loaded WebPGF; libpgf version', version())
     });
   }
 
   window.onload = init;
 
-  function decode(pgf_data, canvas_id) {
-    if (!PGFImage) {
+  function decodePGF(pgf_data, canvas_id) {
+    if (!decode) {
       console.warn('WASM module has not finished loading');
       return 'WASM module has not finished loading';
     }
 
     let start = new Date();
-    let pgf_image = new PGFImage(pgf_data);
-    console.log('pgf_image:', pgf_image);
-    const levels = pgf_image.levels();
-    console.log('levels:', levels);
-    const image_data = pgf_image.decode(0);
+    const image_data = decode(pgf_data);
     console.log('image_data:', image_data);
     const canvas = document.getElementById(canvas_id);
     canvas.width = image_data.width;
@@ -71,7 +70,7 @@
   async function loadfile(filename, canvas_id) {
     const resp = await fetch(filename);
     const pgf_data = await resp.arrayBuffer();
-    decode(pgf_data, canvas_id);
+    decodePGF(pgf_data, canvas_id);
   }
   </script>
 </head>

@@ -18,7 +18,7 @@ dist/webpgf.js : libpgf/src/.libs/libpgf.a src/webpgf.cpp
 	em++ -O3 -g0 $(EMCC_OPTS)
 
 dist/webpgf_debug.js : libpgf/src/.libs/libpgf.a src/webpgf.cpp
-	em++ -O0 -g3 $(EMCC_OPTS)
+	em++ -O0 -g3 -sSAFE_HEAP=1 $(EMCC_OPTS)
 
 libpgf/configure:
 	mkdir -p libpgf/m4
