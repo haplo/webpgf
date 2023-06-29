@@ -48,6 +48,10 @@ You will need to install the following dependencies:
 - libpgf needs to be patched to support emscripten. See commit 191f03ed5c2ec02 for the details.
 - `dos2unix` has been applied to libpgf files in this repository, but it's still left as a step in the build process.
 
+## Bugs and contact
+
+See [https://github.com/haplo/webpgf/issues](https://github.com/haplo/webpgf/issues) for open issues, and open a new one if you find a new bug.
+
 ## License
 
 WebPGF is distributed under the LGPLv3 license, see [LICENSE](LICENSE) for details.
