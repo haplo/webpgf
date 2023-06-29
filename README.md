@@ -1,7 +1,9 @@
 # WebPGF
 
 WebPGF is a WASM port of the [libPGF](https://libpgf.org/) library with a focus on decoding PGF images in the browser.
-Encoding of PGF images is not supported and is not planned.
+Encoding of PGF images neither supported nor planned.
+
+PGF codec is used for the thumbnails in the [Digikam](https://www.digikam.org/) photo software.
 
 ## Build
 
