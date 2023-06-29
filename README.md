@@ -5,9 +5,26 @@ Encoding of PGF images neither supported nor planned.
 
 PGF codec is used for the thumbnails in the [Digikam](https://www.digikam.org/) photo software.
 
+## Demo
+
+Included is a [simple HTML file](src/index.html) that loads the WebPGF library and allows decoding and displaying PGF files.
+
+Due to web browser limitations, you cannot just open the demo file using the `file://` protocol, it needs to be served by a web server through HTTP protocol.
+A simple solution is to use Python to start a web server:
+
+```
+# in webpgf root directory
+python3 -m http.server
+```
+
+Then open [http://localhost:8000/src/](http://localhost:8000/src/) and the demo should work.
+You can use the images from [pgf-images](pgf-images) folder.
+
 ## Build
 
-Install [Docker](https://docs.docker.com/get-docker/) and [make](https://www.gnu.org/software/make/), then run:
+Ready-to-use builds are included in the [dist](dist) directory.
+
+To build, install [Docker](https://docs.docker.com/get-docker/) and [make](https://www.gnu.org/software/make/), then run:
 
 ```
 ./build.sh
@@ -25,20 +42,6 @@ You will need to install the following dependencies:
 - *autoconf*
 - *automake*
 - *libtool*
-
-## Demo
-
-Included is a simple HTML file that loads the WebPGF library and allows decoding and displaying PGF files.
-
-Due to web browser limitations, you cannot just open the demo file using the `file://` protocol, it needs to be served by a web server through HTTP protocol.
-The simplest solution is to use Python to start a web server:
-
-```
-# in webpgf root directory
-python3 -m http.server
-```
-
-Then open http://localhost:8000/src/ and the demo should work.
 
 ## Developer notes
 
